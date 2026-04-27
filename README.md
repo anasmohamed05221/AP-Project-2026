@@ -1,4 +1,4 @@
-# StayEase
+![StayEase](assets/images/logo.png)
 
 > A modern hotel discovery and booking platform. Search hotels, explore rooms, and manage your stays with ease.
 
