@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StayEase. | Hotel Discovery &amp; Booking</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <section class="hero" th:style="|background-image: url('/images/hero-bg-v3.jpg')|">
+    <h1>Find your next escape</h1>
+    <p>Discover handpicked boutique hotels and luxury stays for your perfect getaway.</p>
+
+    <form class="search-box" id="searchForm" th:action="@{/search}" method="GET">
+      <div class="search-field">
+        <i class="fa-solid fa-location-dot"></i>
+        <div class="search-field-text">
+          <label for="city">Destination</label>
+          <input type="text" id="city" name="city" placeholder="Where are you going?" autocomplete="off">
+          <div class="city-tooltip">Enter a destination to start searching.</div>
+        </div>
+      </div>
+      <div class="search-field">
+        <i class="fa-solid fa-calendar-days"></i>
+        <div class="search-field-text">
+          <label for="check_in">Check-in</label>
+          <input type="date" id="check_in" name="check_in" placeholder="Add date">
+          <div class="date-tooltip" id="dateError">Check-in must be before check-out.</div>
+        </div>
+      </div>
+      <div class="search-field">
+        <i class="fa-solid fa-calendar-check"></i>
+        <div class="search-field-text">
+          <label for="check_out">Check-out</label>
+          <input type="date" id="check_out" name="check_out" placeholder="Add date">
+        </div>
+      </div>
+      <button type="submit" class="search-btn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        Search
+      </button>
+    </form>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Featured Destinations</h2>
+        <a th:href="@{/search}">View All Destinations ›</a>
+      </div>
+      <p class="section-sub">Explore our most-loved cities this season.</p>
+
+      <div class="hotels-grid">
+        <p th:if="${#lists.isEmpty(hotels)}" style="color:var(--muted); font-size:14px;">No featured hotels available yet.</p>
+        <a th:each="hotel : ${hotels}" th:href="@{/hotel/{id}(id=${hotel.id})}" class="hotel-card">
+          <div class="hotel-card-img">
+            <img th:src="${hotel.image}" th:alt="${hotel.name}">
+          </div>
+          <div class="hotel-card-body">
+            <div class="hotel-stars">
+              <span th:each="i : ${#numbers.sequence(1, hotel.stars)}">★</span>
+              <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5)}">☆</span>
+            </div>
+            <h3 th:text="${hotel.name}">Hotel Name</h3>
+            <p class="city"><i class="fa-solid fa-location-dot fa-xs"></i> <span th:text="${hotel.city}">City</span></p>
+          </div>
+          <div class="hotel-card-footer">
+            <div class="hotel-price">
+              <small>Starting from</small>
+              <strong>
+                <span th:if="${minPrices[hotel.id] != null}" th:text="'$' + ${#numbers.formatDecimal(minPrices[hotel.id], 1, 0)}">$0</span>
+                <span th:unless="${minPrices[hotel.id] != null}">N/A</span>
+                <span style="font-size:13px;font-weight:400;color:var(--muted)"> /night</span>
+              </strong>
+            </div>
+            <span class="btn-card">View Hotel</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="why-section">
+    <div class="container">
+      <h2>Why Choose StayEase?</h2>
+      <p class="why-sub">We've simplified travel planning so you can focus on making memories.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+          <h3>Best Price Guarantee</h3>
+          <p>Found a lower price elsewhere? We'll match it plus give you an extra 10% off your stay.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+          <h3>24/7 Premium Support</h3>
+          <p>Our dedicated concierge team is available around the clock to assist with any request.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-comment-dots"></i></div>
+          <h3>Verified Guest Reviews</h3>
+          <p>Read authentic experiences from travelers like you. No bots, no fake feedback, ever.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-banner">
+        <div class="cta-text">
+          <h2>Join the world's most rewarding hotel club.</h2>
+          <p>Unlock exclusive rates, late check-outs, and room upgrades starting from your first booking.</p>
+        </div>
+        <div class="cta-form">
+          <input type="email" placeholder="Enter your email">
+          <button type="button">Sign Up Free</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+  <script th:src="@{/js/main.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    flatpickr("#check_in", { minDate: "today" });
+    flatpickr("#check_out", { minDate: "today" });
+  </script>
+</body>
+</html>
