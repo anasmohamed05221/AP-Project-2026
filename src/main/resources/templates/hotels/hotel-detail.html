@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${hotel.name} + ' | StayEase'">Hotel | StayEase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <link rel="stylesheet" th:href="@{/css/hotels.css}" />
+</head>
+<body>
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <main class="page">
+    <section class="hotel-intro">
+      <div>
+        <p class="breadcrumb">Home › Hotels › <span th:text="${hotel.name}">Hotel</span></p>
+        <h2 th:text="${hotel.name}">Hotel Name</h2>
+        <p th:text="${hotel.location} + ' • ' + ${averageRating} + '/5 (' + ${reviewCount} + ' Reviews)'">Info</p>
+      </div>
+      <a class="soft-btn" th:href="@{/reviews}">View Reviews</a>
+    </section>
+
+    <section class="hotel-cover"
+             th:style="|background-image: linear-gradient(90deg, rgba(15,23,42,.75), rgba(15,23,42,.15)), url(${hotel.image})|">
+      <div class="cover-text">
+        <span>
+          <span th:each="i : ${#numbers.sequence(1, hotel.stars)}">★</span>
+          <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5)}">☆</span>
+        </span>
+        <h2 th:text="${hotel.city}">City</h2>
+        <p th:text="${hotel.description}">Description</p>
+      </div>
+    </section>
+
+    <section class="rooms-head">
+      <div>
+        <h2>Available Rooms</h2>
+        <p>Find the perfect space for your next stay</p>
+      </div>
+      <div class="filters">
+        <button class="filter active" data-type="all">All Rooms</button>
+        <button class="filter" data-type="Standard">Standard</button>
+        <button class="filter" data-type="Suite">Suite</button>
+        <button class="filter" data-type="Deluxe">Deluxe</button>
+      </div>
+    </section>
+
+    <section class="rooms-grid" id="roomsGrid">
+      <div th:if="${#lists.isEmpty(rooms)}" class="empty">No rooms available.</div>
+      <article class="room-card" th:each="room : ${rooms}" th:attr="data-type=${room.type}">
+        <div class="room-image">
+          <img th:src="${room.image}" th:alt="${room.name}">
+          <span class="tag" th:classappend="${room.isAvailable} ? '' : ' danger'"
+                th:text="${room.isAvailable} ? ${room.type} : 'Unavailable'">Type</span>
+        </div>
+        <div class="room-body">
+          <div class="room-title-row">
+            <h3 th:text="${room.name}">Room Name</h3>
+            <strong th:text="'$' + ${#numbers.formatDecimal(room.pricePerNight, 1, 0)}">$0</strong>
+          </div>
+          <p><i class="fa-solid fa-location-dot"></i> <span th:text="${hotel.city}">City</span></p>
+          <div class="room-icons">
+            <span><i class="fa-solid fa-bed"></i> <span th:text="${room.type}">Type</span></span>
+            <span><i class="fa-solid fa-ruler-combined"></i> 45m²</span>
+            <span><i class="fa-solid fa-wifi"></i> Free Wi-Fi</span>
+          </div>
+          <a class="primary-btn" th:href="@{/room/{id}(id=${room.id})}">View Details</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+  <script th:src="@{/js/hotel-detail.js}"></script>
+</body>
+</html>

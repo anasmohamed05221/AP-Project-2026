@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${room.name} + ' | StayEase'">Room | StayEase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <link rel="stylesheet" th:href="@{/css/hotels.css}" />
+</head>
+<body>
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <main class="page">
+    <p class="breadcrumb">Home › Rooms › <span th:text="${room.name}">Room</span></p>
+
+    <section class="room-layout">
+      <div class="left-column">
+        <section class="gallery">
+          <div class="main-photo"><img th:src="${room.image}" alt="Room image"></div>
+          <div class="small-photo"><img th:src="${room.image}" alt="Room preview"></div>
+          <div class="small-photo dark"><img th:src="${room.image}" alt="Room preview"><span><i class="fa-solid fa-images"></i> View all photos</span></div>
+        </section>
+
+        <section class="room-card-large">
+          <div class="badges">
+            <span class="tag" th:classappend="${room.isAvailable} ? '' : ' danger'"
+                  th:text="${room.isAvailable} ? 'AVAILABLE NOW' : 'UNAVAILABLE'">AVAILABLE NOW</span>
+            <span class="tag blue">PREMIUM SELECT</span>
+          </div>
+          <h1 th:text="${room.name}">Room Name</h1>
+          <p class="location-line">
+            <i class="fa-solid fa-location-dot"></i>
+            <span th:text="${room.hotel.name} + ', ' + ${room.hotel.city}">Hotel, City</span>
+            &nbsp;
+            <i class="fa-solid fa-star"></i>
+            <span th:text="${averageRating}">0</span>/5
+          </p>
+        </section>
+
+        <section class="details-card">
+          <h2>Description</h2>
+          <p th:text="${room.description}">Room description will appear here.</p>
+          <div class="features-row">
+            <div><i class="fa-solid fa-bed"></i> <span>Bed Type</span><strong>King Size</strong></div>
+            <div><i class="fa-solid fa-user-group"></i> <span>Occupancy</span><strong>2 Adults</strong></div>
+            <div><i class="fa-solid fa-ruler-combined"></i> <span>Size</span><strong>45 m²</strong></div>
+          </div>
+        </section>
+
+        <section class="details-card">
+          <h2>What this room offers</h2>
+          <div class="amenities">
+            <span><i class="fa-solid fa-wifi"></i> High-speed Wi-Fi</span>
+            <span><i class="fa-solid fa-snowflake"></i> Climate Control</span>
+            <span><i class="fa-solid fa-tv"></i> Smart TV</span>
+            <span><i class="fa-solid fa-mug-hot"></i> Nespresso Machine</span>
+            <span><i class="fa-solid fa-lock"></i> Digital Safe</span>
+            <span><i class="fa-solid fa-martini-glass"></i> Mini Bar</span>
+          </div>
+        </section>
+      </div>
+
+      <aside class="booking-side">
+        <div class="price-box">
+          <h3><span th:text="'$' + ${#numbers.formatDecimal(room.pricePerNight, 1, 0)}">$0</span> <small>/ night</small></h3>
+          <div class="date-box">CHECK-IN / CHECK-OUT<br><strong>Oct 24 - Oct 28</strong></div>
+          <div class="date-box">GUESTS<br><strong>2 Guests</strong></div>
+          <div class="line"><span th:text="'$' + ${#numbers.formatDecimal(room.pricePerNight, 1, 0)} + ' × 4 nights'">$0 × 4 nights</span><b th:text="'$' + ${#numbers.formatDecimal(room.pricePerNight * 4, 1, 0)}">$0</b></div>
+          <div class="line"><span>Service fee</span><b>$120</b></div>
+          <div class="line green"><span>Member Discount</span><b>-$100</b></div>
+          <hr>
+          <div class="line total"><span>Total</span><b th:text="'$' + ${#numbers.formatDecimal(room.pricePerNight * 4 + 20, 1, 0)}">$0</b></div>
+          <a class="primary-btn" th:href="${room.isAvailable} ? @{/booking(roomId=${room.id})} : '#'"
+             th:classappend="${room.isAvailable} ? '' : ' disabled'">Book Now</a>
+          <p>You won't be charged yet</p>
+        </div>
+
+        <div class="support-box">
+          <h3>Need assistance?</h3>
+          <p>Our concierge team is available 24/7 for special requests.</p>
+          <button>Chat with Support</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
