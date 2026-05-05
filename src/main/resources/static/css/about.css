@@ -1,0 +1,271 @@
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== BODY ===== */
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: linear-gradient(180deg, #EEF2F7, #F8FAFC);
+  color: #0F172A;
+}
+
+/* ===== PAGE ===== */
+.page {
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+/* ===== SUCCESS MESSAGE ===== */
+.success-message {
+  display: none;
+  background: #DCFCE7;
+  color: #166534;
+  padding: 15px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  animation: fadeUp 0.4s ease;
+}
+
+/* ===== MAIN CARDS ===== */
+.hotel-card,
+.main-review,
+.form-card,
+.recommend-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.25s;
+  animation: fadeUp 0.5s ease;
+}
+
+.hotel-card:hover,
+.main-review:hover,
+.form-card:hover,
+.team-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ===== HEADER CARD ===== */
+.hotel-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hotel-card img {
+  width: 180px;
+  height: 115px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.hotel-card h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.hotel-card p,
+.main-review p,
+.form-card p {
+  color: #64748B;
+  line-height: 1.6;
+}
+
+.rating-row {
+  margin-top: 18px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  color: #64748B;
+  font-size: 14px;
+}
+
+.rating-badge {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  padding: 9px 14px;
+  border-radius: 100px;
+  font-weight: 800;
+}
+
+/* ===== MISSION GRID ===== */
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.recommend-card {
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
+  color: white;
+}
+
+.recommend-card p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.progress {
+  background: rgba(255, 255, 255, 0.3);
+  height: 8px;
+  border-radius: 100px;
+  margin-top: 20px;
+}
+
+.progress div {
+  width: 95%;
+  height: 100%;
+  background: white;
+  border-radius: 100px;
+}
+
+/* ===== TEAM ===== */
+.team-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.team-card {
+  text-align: center;
+  flex: 1;
+  transition: 0.25s;
+  animation: fadeUp 0.5s ease;
+}
+
+.team-card img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 4px solid white;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.team-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.team-card p {
+  font-size: 12px;
+  color: #64748B;
+}
+
+/* ===== FORM ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-row {
+  display: flex;
+  gap: 14px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  background: #F1F5F9;
+  font-family: inherit;
+}
+
+textarea {
+  min-height: 130px;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  background: white;
+}
+
+/* ===== BUTTON ===== */
+button {
+  background: #2563EB;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-end;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #1D4ED8;
+  transform: translateY(-2px);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #64748B;
+  font-size: 12px;
+}
+
+.footer-logo {
+  color: #2563EB;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hotel-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .team-grid {
+    flex-wrap: wrap;
+  }
+
+  .team-card {
+    min-width: 140px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .navbar {
+    padding: 16px 20px;
+  }
+}
