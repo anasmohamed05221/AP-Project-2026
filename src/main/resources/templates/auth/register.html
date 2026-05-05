@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register Page | StayEase</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Jakarta fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="page-content">
+        <div class="form-container">
+            <h2>Register</h2>
+            <p class="form-subtitle">Join StayEase for effortless travel experiences.</p>
+            <form th:action="@{/register}" method="post">
+                <label>Full Name</label>
+                <div class="input-group">
+                    <i class="fa-solid fa-user-pen"></i>
+                    <input type="text" name="name" placeholder="Enter your full name" required>
+                </div>
+
+
+                <label>Email Address</label>
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="email" placeholder="name@example.com" required>
+                </div>
+
+
+                <label>Password</label>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="********" required>
+                    <button type="button" class="toggle-password" data-target="password">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+
+                <div class="strength-bar">
+                    <div class="strength-segment" id="seg1"></div>
+                    <div class="strength-segment" id="seg2"></div>
+                    <div class="strength-segment" id="seg3"></div>
+                </div>
+                <p id="strength-label"></p>
+
+                <label>Confirm Password</label>
+                <div class="input-group">
+                    <i class="fa-solid fa-check-double"></i>
+                    <input type="password" id="confirm-password" name="confirm_password" placeholder="********"
+                        required>
+                    <button type="button" class="toggle-password" data-target="confirm-password">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+
+                <p class="field-error" th:if="${registerError}" th:text="${registerError}"></p>
+
+                <button type="submit">
+                    Register
+                    <span><i class="fa-solid fa-circle-chevron-right"></i></span>
+                </button>
+
+
+            </form>
+
+            <div class="divider"></div>
+
+            <div class="link">
+                Already have an account?
+                <a th:href="@{/login}">Login</a>
+            </div>
+
+            <div class="form-banner">
+                <span>Unlock exclusive stays and member deals.</span>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/register.js}"></script>
+
+</body>
+
+</html>

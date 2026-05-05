@@ -1,0 +1,16 @@
+<nav th:fragment="navbar" class="navbar" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div class="container nav-inner">
+      <a th:href="@{/}" class="logo">StayEase<span>.</span></a>
+      <div class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/search}">Discover</a>
+        <a th:href="@{/reviews}">Reviews</a>
+        <a th:href="@{/about}">About us</a>
+      </div>
+      <div class="nav-auth">
+        <a th:href="@{/dashboard}" class="profile-icon">
+            <i class="fa-regular fa-circle-user"></i>
+            <span class="nav-user" sec:authentication="name" th:if="${#authorization.expression('isAuthenticated()')}"></span>
+        </a>
+    </div>
+  </nav>

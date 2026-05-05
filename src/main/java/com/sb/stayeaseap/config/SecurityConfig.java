@@ -1,13 +1,12 @@
 package com.sb.stayeaseap.config;
 
 import com.sb.stayeaseap.service.AuthService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -15,20 +14,18 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     
     private final AuthService authService;
+    private final PasswordEncoder passwordEncoder;
 
-    public SecurityConfig(AuthService authService){
+    public SecurityConfig(AuthService authService, PasswordEncoder passwordEncoder){
         this.authService = authService;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public DaoAuthenticationProvider authProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(authService);
-        provider.setPasswordEncoder(passwordEncoder());
+        provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
 

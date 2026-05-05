@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page | StayEase</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Jakarta fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="page-content">
+        <div class="form-container">
+            <h2>Welcome Back</h2>
+            <p class="form-subtitle">Enter your credentials to access your StayEase account.</p>
+            <form th:action="@{/login}" method="post">
+
+                <label>Email Address</label>
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="username" placeholder="name@example.com" required>
+                </div>
+
+                <label>Password</label>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="********" required>
+                    <button type="button" class="toggle-password" data-target="password">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+
+
+                <p class="field-error" th:if="${loginError}" th:text="${loginError}"></p>
+                <p th:if="${logoutMessage}" th:text="${logoutMessage}"></p>
+
+                <button type="submit">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    Login
+                </button>
+
+
+            </form>
+
+            <div class="divider"></div>
+
+            <div class="link">
+                Don't have an account?
+                <a th:href="@{/register}">Register</a>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/login.js}"></script>
+
+</body>
+
+</html>

@@ -199,7 +199,7 @@ button:active{
     margin: 24px -40px -50px -40px;
     height: 100px;
     border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    background-image: url('../assets/images/register-img.png');
+    background-image: url('../images/register-img.png');
     background-size: cover;
     background-position: center;
     padding: 24px;
