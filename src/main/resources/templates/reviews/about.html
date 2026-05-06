@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>About StayEase</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/about.css}">
+</head>
+<body>
+
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <main class="page">
+
+    <div th:if="${success}" class="success-message">
+      Message sent successfully! We will contact you soon.
+    </div>
+
+    <section class="hotel-card">
+      <div>
+        <h1>About StayEase.</h1>
+        <p>
+          StayEase is a modern hotel discovery and booking platform that helps users explore hotels,
+          compare rooms, book stays, and share real guest reviews.
+        </p>
+        <div class="rating-row">
+          <span class="rating-badge">6 Member Project</span>
+          <span>HTML · CSS · PHP · MySQL</span>
+        </div>
+      </div>
+      <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=500" alt="Hotel">
+    </section>
+
+    <section class="content-grid">
+      <div class="main-review">
+        <h2>Our Mission</h2>
+        <p>
+          Our mission is to make hotel booking simple, fast, and reliable by giving users clear
+          hotel information, smooth booking steps, and trusted customer feedback.
+        </p>
+      </div>
+      <aside class="recommend-card">
+        <h3>Why StayEase?</h3>
+        <p>Clean design, easy search, room booking, dashboard, and reviews in one simple platform.</p>
+        <div class="progress">
+          <div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="form-card">
+      <h2>Meet Our Team</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <img th:src="@{/images/member1.jpg}">
+          <h3>Anas Mohamed</h3>
+          <p>Auth &amp; Database</p>
+        </div>
+        <div class="team-card">
+          <img th:src="@{/images/member2.jpg}">
+          <h3>Mohamed Gamil</h3>
+          <p>Home &amp; Search</p>
+        </div>
+        <div class="team-card">
+          <img th:src="@{/images/member3.jpg}">
+          <h3>Tarek Elsayed</h3>
+          <p>Hotels &amp; Rooms</p>
+        </div>
+        <div class="team-card">
+          <img th:src="@{/images/member4.jpg}">
+          <h3>Mohsen Mohamed</h3>
+          <p>Booking</p>
+        </div>
+        <div class="team-card">
+          <img th:src="@{/images/member5.jpg}">
+          <h3>Yassin Abdullah</h3>
+          <p>User Dashboard</p>
+        </div>
+        <div class="team-card">
+          <img th:src="@{/images/member6.jpg}">
+          <h3>Ahmed Tarig</h3>
+          <p>Reviews &amp; About</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-card">
+      <h2>Contact Us</h2>
+      <form th:action="@{/contact}" method="post">
+        <div class="form-row">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="email" name="email" placeholder="Your Email" required>
+        </div>
+        <textarea name="message" placeholder="Write your message..." required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+  </main>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

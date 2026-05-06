@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>StayEase. Reviews</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/reviews.css}">
+</head>
+<body>
+
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <main class="reviews-container">
+
+    <section class="hotel-header">
+      <div class="hotel-info">
+        <h2 th:text="${hotel.name}">Hotel Name</h2>
+        <p class="rating">
+          <i class="fa-solid fa-star"></i>
+          <span th:text="${avgRating != null} ? ${#numbers.formatDecimal(avgRating, 1, 1)} : 'N/A'">N/A</span>
+          / 5 · Based on
+          <span th:text="${reviewCount}">0</span>
+          <span th:text="${reviewCount != 1} ? 'reviews' : 'review'">reviews</span>
+        </p>
+      </div>
+      <img th:src="${hotel.image}" th:alt="${hotel.name}" class="hotel-img">
+    </section>
+
+    <div class="reviews-layout">
+
+      <div class="reviews-left">
+
+        <div th:if="${#lists.isEmpty(reviews)}">
+          <p>No reviews yet. Be the first to review!</p>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(reviews)}">
+          <div class="review-card big">
+            <h3 th:text="${reviews[0].user.name}">Name</h3>
+            <div class="stars">
+              <span th:each="i : ${#numbers.sequence(1, reviews[0].rating)}">★</span>
+              <span th:each="i : ${#numbers.sequence(reviews[0].rating + 1, 5)}">☆</span>
+            </div>
+            <p th:text="${reviews[0].comment}">Comment</p>
+          </div>
+
+          <div class="review-grid">
+            <div th:each="review, stat : ${reviews}" th:if="${stat.index > 0}" class="review-card small">
+              <h4 th:text="${review.user.name}">Name</h4>
+              <div class="stars">
+                <span th:each="i : ${#numbers.sequence(1, review.rating)}">★</span>
+                <span th:each="i : ${#numbers.sequence(review.rating + 1, 5)}">☆</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h2>Share Your Experience</h2>
+
+          <p th:if="${success}" style="color: green; margin-bottom: 12px;">Your review has been submitted successfully.</p>
+          <p th:if="${error}" th:text="${error}" style="color: red; margin-bottom: 12px;"></p>
+
+          <div th:if="${!isLoggedIn}">
+            <p>You must <a th:href="@{/login}">log in</a> to leave a review.</p>
+          </div>
+
+          <div th:if="${isLoggedIn and alreadyReviewed}">
+            <p>You have already reviewed this hotel.</p>
+          </div>
+
+          <div th:if="${isLoggedIn and !alreadyReviewed and !hasStayed}">
+            <p>You can only review hotels you have stayed at.</p>
+          </div>
+
+          <form th:if="${isLoggedIn and !alreadyReviewed and hasStayed}"
+                th:action="@{/reviews/submit}" method="post">
+            <input type="hidden" name="hotelId" th:value="${hotelId}">
+
+            <label>Which stay are you reviewing?</label>
+            <select name="bookingId">
+              <option value="">Select a stay</option>
+              <option th:each="stay : ${pastStays}" th:value="${stay.id}"
+                      th:text="${stay.room.name + ' : ' + stay.checkIn + ' to ' + stay.checkOut}">Stay</option>
+            </select>
+
+            <label>Your Rating</label>
+            <select name="rating" required>
+              <option value="">Choose rating</option>
+              <option value="5">★★★★★</option>
+              <option value="4">★★★★☆</option>
+              <option value="3">★★★☆☆</option>
+              <option value="2">★★☆☆☆</option>
+              <option value="1">★☆☆☆☆</option>
+            </select>
+
+            <label>Your Review</label>
+            <textarea name="comment" placeholder="Tell us about your stay..." required></textarea>
+
+            <button type="submit">Submit Review</button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="reviews-right">
+        <div class="recommend-card">
+          <h3>Highly Recommended</h3>
+          <p><span th:text="${recommendPct}">0</span>% of guests recommend this hotel.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
