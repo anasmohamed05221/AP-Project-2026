@@ -3,6 +3,7 @@ package com.sb.stayeaseap.controller;
 import com.sb.stayeaseap.model.Hotel;
 import com.sb.stayeaseap.model.Room;
 import com.sb.stayeaseap.service.HotelService;
+import com.sb.stayeaseap.service.ReviewService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,11 @@ import java.util.List;
 public class HotelController {
 
     private final HotelService hotelService;
+    private final ReviewService reviewService;
 
-    public HotelController(HotelService hotelService) {
+    public HotelController(HotelService hotelService, ReviewService reviewService) {
         this.hotelService = hotelService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/hotel/{id}")
@@ -25,8 +28,8 @@ public class HotelController {
         List<Room> rooms = hotelService.getRoomsByHotel(id);
         model.addAttribute("hotel", hotel);
         model.addAttribute("rooms", rooms);
-        model.addAttribute("averageRating", 0);
-        model.addAttribute("reviewCount", 0);
+        model.addAttribute("averageRating", reviewService.getAvgRating(id));
+        model.addAttribute("reviewCount", reviewService.getReviewCount(id));
         return "hotels/hotel-detail";
     }
 
@@ -34,7 +37,7 @@ public class HotelController {
     public String roomDetail(@PathVariable Long id, Model model) {
         Room room = hotelService.getRoomById(id);
         model.addAttribute("room", room);
-        model.addAttribute("averageRating", 0);
+        model.addAttribute("averageRating", reviewService.getAvgRating(room.getHotel().getId()));
         return "hotels/room-detail";
     }
 }
