@@ -1,4 +1,4 @@
-package com.sb.stayeaseap.validator;
+package com.sb.stayeaseap.Validator;
 
 import org.springframework.stereotype.Component;
 

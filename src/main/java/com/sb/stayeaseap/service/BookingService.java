@@ -6,7 +6,7 @@ import com.sb.stayeaseap.model.User;
 import com.sb.stayeaseap.repository.BookingRepository;
 import com.sb.stayeaseap.repository.RoomRepository;
 import com.sb.stayeaseap.repository.UserRepository;
-import com.sb.stayeaseap.validator.BookingValidator;
+import com.sb.stayeaseap.Validator.BookingValidator;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
