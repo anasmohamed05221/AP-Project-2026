@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StayEase - Booking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/booking.css}">
+</head>
+
+<body>
+
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <main class="booking-page">
+
+    <a th:href="@{/room/{id}(id=${room.id})}" class="back-link">← Back to Room</a>
+
+    <section class="booking-grid">
+
+      <div class="left-column">
+
+        <section class="room-card">
+          <img th:src="${room.image}" th:alt="${room.name}" class="room-photo">
+          <div class="room-info">
+            <div class="room-badges">
+              <span class="badge" th:text="${room.type}">Type</span>
+            </div>
+            <h1 th:text="${room.name}">Room Name</h1>
+            <p class="location"><i class="fa-solid fa-location-dot"></i> &nbsp;<span th:text="${room.hotel.name}">Hotel</span></p>
+          </div>
+        </section>
+
+        <section class="step-card">
+          <div class="step-title">
+            <div class="step-icon"><i class="fa-solid fa-calendar-days"></i></div>
+            <h2>1. Select Dates</h2>
+          </div>
+          <div class="date-grid">
+            <div class="field-group">
+              <label for="checkInPicker">Check-in Date</label>
+              <input type="text" id="checkInPicker" placeholder="Select date" readonly>
+            </div>
+            <div class="field-group">
+              <label for="checkOutPicker">Check-out Date</label>
+              <input type="text" id="checkOutPicker" placeholder="Select date" readonly>
+            </div>
+          </div>
+        </section>
+
+        <section class="step-card">
+          <div class="step-title">
+            <div class="step-icon"><i class="fa-solid fa-user-pen"></i></div>
+            <h2>2. Guest Information</h2>
+          </div>
+
+          <form id="bookingForm" th:action="@{/booking}" method="post">
+            <input type="hidden" name="roomId" th:value="${room.id}">
+            <input type="hidden" id="checkInHidden" name="checkIn">
+            <input type="hidden" id="checkOutHidden" name="checkOut">
+
+            <div class="guest-grid">
+              <div class="field-group">
+                <label>First Name</label>
+                <input type="text" placeholder="John">
+              </div>
+              <div class="field-group">
+                <label>Last Name</label>
+                <input type="text" placeholder="Doe">
+              </div>
+              <div class="field-group full">
+                <label>Email Address</label>
+                <input type="email" placeholder="john.doe@example.com">
+              </div>
+              <div class="field-group">
+                <label>Guests</label>
+                <select>
+                  <option>1 Guest</option>
+                  <option selected>2 Adults</option>
+                  <option>3 Guests</option>
+                  <option>4 Guests</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label>Special Requests</label>
+                <input type="text" placeholder="High floor, early check-in, etc.">
+              </div>
+            </div>
+
+            <p th:if="${error}" th:text="${error}" class="error-message"></p>
+            <p id="bookingError" class="error-message"></p>
+          </form>
+        </section>
+
+      </div>
+
+      <aside class="right-column">
+
+        <section class="price-card">
+          <h2>Price Summary</h2>
+
+          <div class="price-row">
+            <span><span id="nightsText">0</span> nights</span>
+            <strong>$<span id="basePrice">0.00</span></strong>
+          </div>
+          <div class="price-row">
+            <span>Cleaning fee</span>
+            <strong>$45.00</strong>
+          </div>
+          <div class="price-row">
+            <span>Service fee</span>
+            <strong>$<span id="serviceFee">0.00</span></strong>
+          </div>
+          <div class="total-row">
+            <span>Total</span>
+            <strong>$<span id="totalPrice">0.00</span></strong>
+          </div>
+
+          <button class="pay-btn" type="submit" form="bookingForm">
+            <i class="fa-solid fa-check-double"></i> Confirm &amp; Pay Now
+          </button>
+
+          <p class="cancel-note">Free cancellation until Nov 12, 2026</p>
+        </section>
+
+        <section class="support-card">
+          <div class="support-row">
+            <span class="support-icon green"><i class="fa-solid fa-shield-halved"></i></span>
+            <div>
+              <strong>Secure Payment</strong>
+              <p>Encrypted corporate-grade processing</p>
+            </div>
+          </div>
+          <div class="support-row">
+            <span class="support-icon blue"><i class="fa-solid fa-headset"></i></span>
+            <div>
+              <strong>24/7 Support</strong>
+              <p>Concierge assistance for all bookings</p>
+            </div>
+          </div>
+        </section>
+
+      </aside>
+
+    </section>
+
+  </main>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+  <div id="roomData" th:data-price="${room.pricePerNight}" style="display:none;"></div>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script th:src="@{/js/booking.js}"></script>
+</body>
+</html>

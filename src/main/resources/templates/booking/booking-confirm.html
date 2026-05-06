@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StayEase - Booking Confirmation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/booking.css}">
+</head>
+
+<body>
+
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <main class="confirm-page">
+
+    <section class="success-head">
+      <div class="success-circle"><i class="fa-regular fa-circle-check"></i></div>
+      <h1>Booking Confirmed!</h1>
+      <p>Your reservation is all set. We have saved your booking successfully.</p>
+      <span class="booking-pill">
+        Booking ID: <strong th:text="${booking.id}">0</strong>
+      </span>
+    </section>
+
+    <section class="confirm-grid">
+
+      <div class="confirm-main-card">
+        <img th:src="${booking.room.image}" th:alt="${booking.room.name}" class="confirm-room-img">
+        <div class="confirm-room-info">
+          <span class="badge" th:text="${booking.room.type}">Type</span>
+          <h2 th:text="${booking.room.name}">Room Name</h2>
+          <p><i class="fa-solid fa-location-dot"></i> <span th:text="${booking.room.hotel.name}">Hotel</span>, <span th:text="${booking.room.hotel.city}">City</span></p>
+          <div class="confirm-dates">
+            <div>
+              <small>Check-in</small>
+              <strong th:text="${booking.checkIn}">Date</strong>
+            </div>
+            <div>
+              <small>Check-out</small>
+              <strong th:text="${booking.checkOut}">Date</strong>
+            </div>
+            <div>
+              <small>Nights</small>
+              <strong th:text="${nights}">0</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="confirm-side">
+
+        <section class="host-card">
+          <h3>Host Information</h3>
+          <div class="host-row">
+            <div class="host-avatar">S</div>
+            <div>
+              <strong>Sarah Jenkins</strong>
+              <p>Concierge Manager</p>
+            </div>
+          </div>
+          <button class="light-btn"><i class="fa-regular fa-envelope"></i> &nbsp; Contact Host</button>
+        </section>
+
+        <section class="payment-card">
+          <h3>Payment Details</h3>
+          <div class="price-row">
+            <span>Room total</span>
+            <strong>$<span th:text="${#numbers.formatDecimal(basePrice, 1, 2)}">0.00</span></strong>
+          </div>
+          <div class="price-row">
+            <span>Cleaning fee</span>
+            <strong>$45.00</strong>
+          </div>
+          <div class="price-row">
+            <span>Service fee</span>
+            <strong>$<span th:text="${#numbers.formatDecimal(serviceFee, 1, 2)}">0.00</span></strong>
+          </div>
+          <div class="total-row">
+            <span>Total Paid</span>
+            <strong>$<span th:text="${#numbers.formatDecimal(total, 1, 2)}">0.00</span></strong>
+          </div>
+          <a href="#" class="receipt-link" onclick="window.print(); return false;"><i class="fa-solid fa-print"></i> &nbsp; Print Receipt</a>
+        </section>
+
+        <a th:href="@{/dashboard/bookings}" class="view-bookings-btn">View My Bookings</a>
+
+      </aside>
+
+    </section>
+
+    <section class="info-row">
+      <div class="info-item">
+        <span><i class="fa-solid fa-plane-departure"></i></span>
+        <div>
+          <strong>Travel Info</strong>
+          <p>The hotel is a short distance from the city center and airport routes.</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <span><i class="fa-solid fa-calendar-check"></i></span>
+        <div>
+          <strong>Modify Stay</strong>
+          <p>Changes can be managed through the dashboard before check-in.</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <span><i class="fa-solid fa-building-shield"></i></span>
+        <div>
+          <strong>Safe Stay</strong>
+          <p>StayEase follows health and safety protocols for a comfortable visit.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
