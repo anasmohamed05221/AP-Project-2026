@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(//c/Users/anasa/.vscode/StayEase-Web/**)"
-    ]
-  }
-}
