@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${hotel.id != null} ? 'Edit Hotel - Admin - StayEase' : 'Add Hotel - Admin - StayEase'">Hotel Form - StayEase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
+
+    <main class="admin-content">
+
+        <div class="page-header">
+            <h1 class="page-title" th:text="${hotel.id != null} ? 'Edit Hotel' : 'Add Hotel'">Add Hotel</h1>
+        </div>
+
+        <div class="form-card">
+
+            <p th:if="${error}" th:text="${error}" style="color: var(--danger); margin-bottom: 16px; font-size: 0.875rem;"></p>
+
+            <form th:action="${hotel.id != null} ? @{/admin/hotels/edit/{id}(id=${hotel.id})} : @{/admin/hotels/add}"
+                  method="post">
+
+                <div class="form-group">
+                    <label class="form-label" for="name">Hotel Name</label>
+                    <input class="form-control" type="text" id="name" name="name"
+                           th:value="${hotel.name}" placeholder="e.g. Grand Nile Tower" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="city">City</label>
+                    <input class="form-control" type="text" id="city" name="city"
+                           th:value="${hotel.city}" placeholder="e.g. Cairo" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="location">Location / Address</label>
+                    <input class="form-control" type="text" id="location" name="location"
+                           th:value="${hotel.location}" placeholder="e.g. Corniche El Nil, Cairo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description"
+                              rows="4" placeholder="Describe the hotel..."
+                              th:text="${hotel.description}"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="image">Image URL</label>
+                    <input class="form-control" type="text" id="image" name="image"
+                           th:value="${hotel.image}" placeholder="https://example.com/hotel.jpg"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="stars">Stars (1 - 5)</label>
+                    <input class="form-control" type="number" id="stars" name="stars"
+                           th:value="${hotel.stars}" min="1" max="5" placeholder="5" required/>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span th:text="${hotel.id != null} ? 'Save Changes' : 'Add Hotel'">Add Hotel</span>
+                    </button>
+                    <a th:href="@{/admin/hotels}" class="form-cancel">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

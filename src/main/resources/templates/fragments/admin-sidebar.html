@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<aside th:fragment="adminSidebar" class="admin-sidebar">
+
+    <a th:href="@{/admin}" class="sidebar-logo">
+        StayEase<span>.</span>
+    </a>
+
+    <ul class="sidebar-nav">
+        <li>
+            <a th:href="@{/admin}"
+               th:classappend="${requestURI == '/admin'} ? 'active' : ''">
+                <i class="fa-solid fa-gauge"></i>
+                Dashboard
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/hotels}"
+               th:classappend="${#strings.startsWith(requestURI, '/admin/hotels')} ? 'active' : ''">
+                <i class="fa-solid fa-hotel"></i>
+                Hotels &amp; Rooms
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/bookings}"
+               th:classappend="${#strings.startsWith(requestURI, '/admin/bookings')} ? 'active' : ''">
+                <i class="fa-solid fa-calendar-check"></i>
+                Bookings
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/users}"
+               th:classappend="${#strings.startsWith(requestURI, '/admin/users')} ? 'active' : ''">
+                <i class="fa-solid fa-users"></i>
+                Users
+            </a>
+        </li>
+    </ul>
+
+    <div class="sidebar-bottom">
+        <div class="sidebar-user">
+            <i class="fa-solid fa-circle-user"></i>
+            <span th:text="${currentUserName}">Admin</span>
+        </div>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="sidebar-logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </button>
+        </form>
+    </div>
+
+</aside>
+
+</body>
+</html>

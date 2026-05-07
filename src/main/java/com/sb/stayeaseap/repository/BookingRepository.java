@@ -12,6 +12,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByUserEmailOrderByCreatedAtDesc(String email);
 
+    List<Booking> findTop5ByOrderByCreatedAtDesc();
+
     @Query("SELECT b FROM Booking b WHERE b.user.email = :email AND b.room.hotel.id = :hotelId AND b.checkOut < :today ORDER BY b.checkOut DESC")
     List<Booking> findPastStaysByUserAndHotel(@Param("email") String email,
                                                @Param("hotelId") Long hotelId,

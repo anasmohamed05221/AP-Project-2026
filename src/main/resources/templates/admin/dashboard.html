@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Dashboard - StayEase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
+
+    <main class="admin-content">
+
+        <div class="page-header">
+            <h1 class="page-title">Dashboard Overview</h1>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-value" th:text="${userCount}">0</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-hotel"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">Hotels</div>
+                    <div class="stat-value" th:text="${hotelCount}">0</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">Bookings</div>
+                    <div class="stat-value" th:text="${bookingCount}">0</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon golden">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">Reviews</div>
+                    <div class="stat-value" th:text="${reviewCount}">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2 class="section-title">Recent Bookings</h2>
+        </div>
+
+        <div class="table-card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Guest</th>
+                            <th>Hotel</th>
+                            <th>Room</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="booking : ${recentBookings}">
+                            <td th:text="'#' + ${booking.id}">#1</td>
+                            <td th:text="${booking.user.name}">Guest Name</td>
+                            <td th:text="${booking.room.hotel.name}">Hotel Name</td>
+                            <td th:text="${booking.room.name}">Room Name</td>
+                            <td th:text="${booking.checkIn}">2025-01-01</td>
+                            <td th:text="${booking.checkOut}">2025-01-05</td>
+                            <td>
+                                <span class="badge"
+                                      th:text="${booking.status}"
+                                      th:class="${booking.status == 'confirmed'} ? 'badge badge-confirmed' : (${booking.status == 'cancelled'} ? 'badge badge-cancelled' : 'badge badge-pending')">
+                                    pending
+                                </span>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(recentBookings)}">
+                            <td colspan="7" style="text-align:center; color: var(--muted); padding: 32px;">
+                                No bookings yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

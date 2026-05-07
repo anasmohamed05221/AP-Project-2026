@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>All Users - Admin - StayEase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
+
+    <main class="admin-content">
+
+        <div class="page-header">
+            <h1 class="page-title">All Users</h1>
+        </div>
+
+        <div class="table-card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.id}">1</td>
+                            <td th:text="${user.name}">User Name</td>
+                            <td th:text="${user.email}">user@example.com</td>
+                            <td>
+                                <span class="badge"
+                                      th:text="${user.role}"
+                                      th:class="${user.role == 'ADMIN'} ? 'badge badge-admin' : 'badge badge-user'">
+                                    USER
+                                </span>
+                            </td>
+                            <td th:text="${user.createdAt}">2025-01-01</td>
+                            <td>
+                                <div class="actions-cell" th:if="${user.role != 'ADMIN'}">
+                                    <form th:action="@{/admin/users/delete/{id}(id=${user.id})}"
+                                          method="post"
+                                          onsubmit="return confirm('Delete this user? This cannot be undone.');">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(users)}">
+                            <td colspan="6" style="text-align:center; color: var(--muted); padding: 32px;">
+                                No users found.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

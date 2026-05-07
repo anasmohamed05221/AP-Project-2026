@@ -31,11 +31,11 @@ public class AuthService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
         .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     
-        return org.springframework.security.core.userdetails.User.
-        withUsername(user.getEmail())
-        .password(user.getPassword())
-        .roles("USER")
-        .build();
+        return org.springframework.security.core.userdetails.User
+                .withUsername(user.getEmail())
+                .password(user.getPassword())
+                .roles(user.getRole())
+                .build();
     }
 
     public void register(String name, String email, String password, String confirmPassword) {

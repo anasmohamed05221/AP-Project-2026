@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Hotels &amp; Rooms - Admin - StayEase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
+
+    <main class="admin-content">
+
+        <div class="page-header">
+            <h1 class="page-title">Hotels &amp; Rooms</h1>
+            <a th:href="@{/admin/hotels/add}" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                Add Hotel
+            </a>
+        </div>
+
+        <div class="section-header">
+            <h2 class="section-title">Hotels</h2>
+        </div>
+
+        <div class="table-card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>City</th>
+                            <th>Stars</th>
+                            <th>Rooms</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="hotel : ${hotels}">
+                            <td th:text="${hotel.id}">1</td>
+                            <td th:text="${hotel.name}">Hotel Name</td>
+                            <td th:text="${hotel.city}">City</td>
+                            <td>
+                                <span class="stars">
+                                    <th:block th:each="i : ${#numbers.sequence(1, hotel.stars)}">&#9733;</th:block>
+                                </span>
+                            </td>
+                            <td th:text="${roomCounts[hotel.id] != null ? roomCounts[hotel.id] : 0}">0</td>
+                            <td>
+                                <div class="actions-cell">
+                                    <a th:href="@{/admin/hotels/{hotelId}/rooms/add(hotelId=${hotel.id})}" class="btn btn-sm btn-outline">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Add Room
+                                    </a>
+                                    <a th:href="@{/admin/hotels/edit/{id}(id=${hotel.id})}" class="btn btn-sm btn-outline">
+                                        <i class="fa-solid fa-pen"></i>
+                                        Edit
+                                    </a>
+                                    <form th:action="@{/admin/hotels/delete/{id}(id=${hotel.id})}" method="post"
+                                          onsubmit="return confirm('Delete this hotel? All associated rooms will also be removed.');">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(hotels)}">
+                            <td colspan="6" style="text-align:center; color: var(--muted); padding: 32px;">
+                                No hotels found.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 16px;">
+            <h2 class="section-title">Rooms</h2>
+        </div>
+
+        <div class="table-card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Hotel</th>
+                            <th>Room Name</th>
+                            <th>Type</th>
+                            <th>Price / Night</th>
+                            <th>Available</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="room : ${rooms}">
+                            <td th:text="${room.id}">1</td>
+                            <td th:text="${room.hotel.name}">Hotel Name</td>
+                            <td th:text="${room.name}">Room Name</td>
+                            <td th:text="${room.type}">Deluxe</td>
+                            <td th:text="'$' + ${room.pricePerNight}">$0</td>
+                            <td>
+                                <span class="badge"
+                                      th:text="${room.isAvailable} ? 'Yes' : 'No'"
+                                      th:class="${room.isAvailable} ? 'badge badge-confirmed' : 'badge badge-cancelled'">
+                                    Yes
+                                </span>
+                            </td>
+                            <td>
+                                <div class="actions-cell">
+                                    <a th:href="@{/admin/rooms/edit/{id}(id=${room.id})}" class="btn btn-sm btn-outline">
+                                        <i class="fa-solid fa-pen"></i>
+                                        Edit
+                                    </a>
+                                    <form th:action="@{/admin/rooms/delete/{id}(id=${room.id})}" method="post"
+                                          onsubmit="return confirm('Delete this room?');">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(rooms)}">
+                            <td colspan="7" style="text-align:center; color: var(--muted); padding: 32px;">
+                                No rooms found.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

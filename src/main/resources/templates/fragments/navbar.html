@@ -10,7 +10,7 @@
       <div class="nav-auth">
         <a th:href="@{/dashboard}" class="profile-icon">
             <i class="fa-regular fa-circle-user"></i>
-            <span class="nav-user" sec:authentication="name" th:if="${#authorization.expression('isAuthenticated()')}"></span>
+            <span class="nav-user" th:if="${currentUserName != null}" th:text="${currentUserName}"></span>
         </a>
     </div>
   </nav>

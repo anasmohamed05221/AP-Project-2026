@@ -12,18 +12,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    
+
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
+    private final LoginSuccessHandler loginSuccessHandler;
 
-    public SecurityConfig(AuthService authService, PasswordEncoder passwordEncoder){
+    public SecurityConfig(AuthService authService, PasswordEncoder passwordEncoder, LoginSuccessHandler loginSuccessHandler) {
         this.authService = authService;
         this.passwordEncoder = passwordEncoder;
+        this.loginSuccessHandler = loginSuccessHandler;
     }
 
-
     @Bean
-    public DaoAuthenticationProvider authProvider(){
+    public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(authService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
@@ -32,15 +33,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(authProvider())
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/", "/search", "/hotel/**", "/room/**",
-                                 "/reviews", "/about", "/contact",
-                                 "/login", "/register",
-                                 "/css/**", "/images/**", "/js/**").permitAll()
-                                .requestMatchers("/booking/**", "/dashboard/**", "/reviews/submit").authenticated()
-                                .anyRequest().authenticated()
-        )
-        .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login?error").permitAll())
-        .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll());
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
+                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/", "/search", "/hotel/**", "/room/**",
+                                "/reviews", "/about", "/contact").permitAll()
+                        .requestMatchers("/booking/**", "/dashboard/**", "/reviews/submit").hasRole("USER")
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .successHandler(loginSuccessHandler)
+                        .failureUrl("/login?error")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+                );
 
         return http.build();
     }
