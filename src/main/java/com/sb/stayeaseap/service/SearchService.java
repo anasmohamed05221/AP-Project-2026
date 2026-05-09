@@ -114,7 +114,4 @@ public class SearchService {
         return minPrices.getOrDefault(hotel.getId(), BigDecimal.ZERO);
     }
 
-    private int getStars(Hotel hotel) {
-        return hotel.getStars() != null ? hotel.getStars() : 0;
-    }
 }
