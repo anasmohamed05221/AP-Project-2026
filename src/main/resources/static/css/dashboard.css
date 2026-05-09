@@ -367,6 +367,14 @@ button:disabled {
 }
 .cancel-btn:hover { background: var(--danger); color: var(--white); }
 
+.review-btn {
+    border: 1.5px solid var(--primary); color: var(--primary);
+    font-size: 13px; font-weight: 600; padding: 6px 16px;
+    border-radius: var(--radius-sm); transition: all 0.2s ease;
+    text-decoration: none; display: inline-block;
+}
+.review-btn:hover { background: var(--primary); color: var(--white); }
+
 .no-action { font-size: 18px; color: var(--gray-border); }
 
 .bookings-empty { text-align: center; padding: 64px 24px; color: var(--muted); }

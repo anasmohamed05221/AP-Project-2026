@@ -96,7 +96,10 @@
                 onsubmit="return confirm('Cancel this booking?')">
             <button type="submit" class="cancel-btn">Cancel</button>
           </form>
-          <span th:unless="${canCancels[booking.id]}" class="no-action">—</span>
+          <a th:if="${!canCancels[booking.id] and displayStatuses[booking.id] == 'past'}"
+             th:href="@{/reviews(hotelId=${booking.room.hotel.id})}"
+             class="review-btn">Write a Review</a>
+          <span th:if="${!canCancels[booking.id] and displayStatuses[booking.id] != 'past'}" class="no-action">—</span>
         </div>
 
       </div>
