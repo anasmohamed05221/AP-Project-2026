@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings | StayEase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <main class="dashboard-page">
+
+    <section class="bookings-header">
+      <h1>My Bookings</h1>
+      <div class="bookings-stats">
+        <div class="bstat-card">
+          <div class="bstat-icon blue"><i class="fa-regular fa-calendar-days"></i></div>
+          <div>
+            <p class="bstat-label">Total Bookings</p>
+            <strong th:text="${totalBookings}">0</strong>
+          </div>
+        </div>
+        <div class="bstat-card">
+          <div class="bstat-icon green"><i class="fa-solid fa-arrow-trend-up"></i></div>
+          <div>
+            <p class="bstat-label">Upcoming</p>
+            <strong th:text="${upcomingBookings}">0</strong>
+          </div>
+        </div>
+        <div class="bstat-card">
+          <div class="bstat-icon orange"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <div>
+            <p class="bstat-label">Past Stays</p>
+            <strong th:text="${pastStays}">0</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div th:if="${#lists.isEmpty(bookings)}" class="bookings-empty">
+      <i class="fa-regular fa-calendar-xmark"></i>
+      <p>You have no bookings yet.</p>
+      <a th:href="@{/search}" class="btn btn-primary">Find a Hotel</a>
+    </div>
+
+    <div id="bookingsList">
+      <div th:each="booking : ${bookings}" class="booking-card">
+        <img class="booking-hotel-img"
+             th:src="${booking.room.hotel.image}"
+             th:alt="${booking.room.hotel.name}">
+
+        <div class="booking-card-left">
+          <div class="booking-meta">
+            <span class="status-badge"
+                  th:classappend="'status-' + ${displayStatuses[booking.id]}"
+                  th:text="${displayStatuses[booking.id]}">upcoming</span>
+            <span class="booking-type" th:text="${booking.room.type}">type</span>
+          </div>
+          <h3 th:text="${booking.room.hotel.name}">Hotel Name</h3>
+          <p class="booking-room">
+            <i class="fa-solid fa-bed"></i>
+            <span th:text="${booking.room.name}">Room</span>
+          </p>
+          <p class="booking-location">
+            <i class="fa-solid fa-location-dot"></i>
+            <span th:text="${booking.room.hotel.city}">City</span>
+          </p>
+        </div>
+
+        <div class="booking-card-mid">
+          <div class="booking-date">
+            <span>Check-in</span>
+            <strong th:text="${booking.checkIn}">2025-01-01</strong>
+          </div>
+          <div class="booking-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+          <div class="booking-date">
+            <span>Check-out</span>
+            <strong th:text="${booking.checkOut}">2025-01-05</strong>
+          </div>
+        </div>
+
+        <div class="booking-card-right">
+          <div class="booking-price">
+            <span th:text="${nights[booking.id]} + ' night' + (${nights[booking.id]} > 1 ? 's' : '')">1 night</span>
+            <strong th:text="'$' + ${#numbers.formatDecimal(totalPrices[booking.id], 1, 2)}">$0.00</strong>
+          </div>
+          <form th:if="${canCancels[booking.id]}"
+                th:action="@{/dashboard/bookings/{id}/cancel(id=${booking.id})}"
+                method="post"
+                onsubmit="return confirm('Cancel this booking?')">
+            <button type="submit" class="cancel-btn">Cancel</button>
+          </form>
+          <span th:unless="${canCancels[booking.id]}" class="no-action">—</span>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

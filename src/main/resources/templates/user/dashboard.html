@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | StayEase.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <main class="dashboard-page">
+
+    <section class="dashboard-header">
+      <div class="dashboard-title">
+        <h1>Welcome back, <span th:text="${userName}">User</span></h1>
+        <p>Manage your hotel bookings, view your stays, and continue exploring hotels.</p>
+      </div>
+      <div class="dashboard-actions">
+        <a th:href="@{/dashboard/bookings}" class="btn btn-primary">My Bookings</a>
+        <a th:href="@{/search}" class="btn btn-secondary">Browse Hotels</a>
+        <form th:action="@{/logout}" method="post">
+          <button type="submit" class="btn btn-danger">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> &nbsp; Logout
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">Total Bookings</p>
+        <h2 class="stat-number" th:text="${totalBookings}">0</h2>
+        <p class="stat-note">All reservations made from your account.</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Upcoming Bookings</p>
+        <h2 class="stat-number" th:text="${upcomingBookings}">0</h2>
+        <p class="stat-note">Bookings with future check-in dates.</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Past Stays</p>
+        <h2 class="stat-number" th:text="${pastStays}">0</h2>
+        <p class="stat-note">Completed hotel stays.</p>
+      </div>
+    </section>
+
+    <section class="quick-links">
+      <h2 class="section-title">Quick Actions</h2>
+      <p class="section-subtitle">Access your main account actions quickly.</p>
+      <div class="quick-links-grid">
+        <a th:href="@{/dashboard/bookings}" class="quick-link-card">
+          <h3>View My Bookings</h3>
+          <p>Check your current, upcoming, and past reservations.</p>
+          <span class="btn btn-primary">Open Bookings</span>
+        </a>
+        <a th:href="@{/search}" class="quick-link-card">
+          <h3>Browse Hotels</h3>
+          <p>Discover available hotels and book your next stay.</p>
+          <span class="btn btn-secondary">Browse Now</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
