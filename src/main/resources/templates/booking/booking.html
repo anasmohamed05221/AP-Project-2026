@@ -37,8 +37,13 @@
         <section class="step-card">
           <div class="step-title">
             <div class="step-icon"><i class="fa-solid fa-calendar-days"></i></div>
-            <h2>1. Select Dates</h2>
+            <h2>Select Dates</h2>
           </div>
+          <form id="bookingForm" th:action="@{/booking}" method="post">
+            <input type="hidden" name="roomId" th:value="${room.id}">
+            <input type="hidden" id="checkInHidden" name="checkIn">
+            <input type="hidden" id="checkOutHidden" name="checkOut">
+          </form>
           <div class="date-grid">
             <div class="field-group">
               <label for="checkInPicker">Check-in Date</label>
@@ -49,50 +54,8 @@
               <input type="text" id="checkOutPicker" placeholder="Select date" readonly>
             </div>
           </div>
-        </section>
-
-        <section class="step-card">
-          <div class="step-title">
-            <div class="step-icon"><i class="fa-solid fa-user-pen"></i></div>
-            <h2>2. Guest Information</h2>
-          </div>
-
-          <form id="bookingForm" th:action="@{/booking}" method="post">
-            <input type="hidden" name="roomId" th:value="${room.id}">
-            <input type="hidden" id="checkInHidden" name="checkIn">
-            <input type="hidden" id="checkOutHidden" name="checkOut">
-
-            <div class="guest-grid">
-              <div class="field-group">
-                <label>First Name</label>
-                <input type="text" placeholder="John">
-              </div>
-              <div class="field-group">
-                <label>Last Name</label>
-                <input type="text" placeholder="Doe">
-              </div>
-              <div class="field-group full">
-                <label>Email Address</label>
-                <input type="email" placeholder="john.doe@example.com">
-              </div>
-              <div class="field-group">
-                <label>Guests</label>
-                <select>
-                  <option>1 Guest</option>
-                  <option selected>2 Adults</option>
-                  <option>3 Guests</option>
-                  <option>4 Guests</option>
-                </select>
-              </div>
-              <div class="field-group">
-                <label>Special Requests</label>
-                <input type="text" placeholder="High floor, early check-in, etc.">
-              </div>
-            </div>
-
-            <p th:if="${error}" th:text="${error}" class="error-message"></p>
-            <p id="bookingError" class="error-message"></p>
-          </form>
+          <p th:if="${error}" th:text="${error}" class="error-message"></p>
+          <p id="bookingError" class="error-message"></p>
         </section>
 
       </div>

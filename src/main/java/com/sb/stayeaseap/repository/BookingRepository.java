@@ -23,4 +23,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     boolean existsOverlappingBooking(@Param("roomId") Long roomId,
                                      @Param("checkIn") LocalDate checkIn,
                                      @Param("checkOut") LocalDate checkOut);
+
+    @Query("SELECT COUNT(b) FROM Booking b WHERE b.user.email = :email AND b.checkIn > :today AND b.status != 'cancelled'")
+    long countUpcomingByUserEmail(@Param("email") String email, @Param("today") LocalDate today);
+
+    @Query("SELECT COUNT(b) FROM Booking b WHERE b.user.email = :email AND b.checkOut < :today AND b.status != 'cancelled'")
+    long countPastByUserEmail(@Param("email") String email, @Param("today") LocalDate today);
 }

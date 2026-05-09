@@ -16,15 +16,16 @@
   display:grid;
   grid-template-columns:1fr 360px;
   gap:28px;
-  align-items:start;
+  align-items:stretch;
 }
 
 .left-column,
 .confirm-side{
   display:flex;
   flex-direction:column;
-  gap:24px;
+  gap:42px;
 }
+
 
 .info-item{
 color: var(--primary);
@@ -106,14 +107,21 @@ color: var(--primary);
   line-height:1.6;
 }
 
-.step-card,
-.price-card,
+.step-card{
+  padding: 30px;
+}
+
+.price-card{
+  padding: 30px;
+}
+
 .support-card,
 .host-card,
 .payment-card,
 .info-item{
   padding:20px;
 }
+
 
 .step-title{
   display:flex;
@@ -135,21 +143,18 @@ color: var(--primary);
   font-weight:900;
 }
 
-.date-grid,
-.guest-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
+.date-grid{
+  display:flex;
+  flex-direction:column;
   gap:18px;
 }
 
-.full{
-  grid-column:1/-1;
-}
 
 .field-group{
   display:flex;
   flex-direction:column;
   gap:8px;
+  padding: 15px 10px 10px;
 }
 
 label{
@@ -205,6 +210,10 @@ select:focus{
   font-size:20px;
   font-weight:900;
   color:var(--text);
+}
+
+.pay-btn{
+  margin-bottom: 10px;
 }
 
 .pay-btn,

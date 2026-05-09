@@ -83,4 +83,11 @@ public class BookingService {
     public BigDecimal calculateTotal(BigDecimal basePrice, BigDecimal serviceFee) {
         return basePrice.add(new BigDecimal("45")).add(serviceFee);
     }
+
+    public void cancelBooking(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        booking.setStatus("cancelled");
+        bookingRepository.save(booking);
+    }
 }
