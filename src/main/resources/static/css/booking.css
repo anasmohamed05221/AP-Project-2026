@@ -11,12 +11,18 @@
   font-weight:700;
 }
 
-.booking-grid,
-.confirm-grid{
+.booking-grid{
   display:grid;
   grid-template-columns:1fr 360px;
   gap:28px;
   align-items:stretch;
+}
+
+.confirm-grid{
+  display:grid;
+  grid-template-columns:1fr 360px;
+  gap:28px;
+  align-items:start;
 }
 
 .left-column,
@@ -443,7 +449,6 @@ select:focus{
   }
 
   .date-grid,
-  .guest-grid,
   .stay-dates{
     grid-template-columns:1fr;
   }

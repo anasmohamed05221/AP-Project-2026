@@ -28,24 +28,37 @@
     <section class="confirm-grid">
 
       <div class="confirm-main-card">
-        <img th:src="${booking.room.image}" th:alt="${booking.room.name}" class="confirm-room-img">
-        <div class="confirm-room-info">
-          <span class="badge" th:text="${booking.room.type}">Type</span>
-          <h2 th:text="${booking.room.name}">Room Name</h2>
-          <p><i class="fa-solid fa-location-dot"></i> <span th:text="${booking.room.hotel.name}">Hotel</span>, <span th:text="${booking.room.hotel.city}">City</span></p>
-          <div class="confirm-dates">
+        <div class="confirm-image-wrap">
+          <img th:src="${booking.room.image}" th:alt="${booking.room.name}" class="confirm-image">
+          <span class="confirmed-badge">Confirmed</span>
+        </div>
+        <div class="confirm-room-body">
+          <div class="confirm-room-header">
             <div>
-              <small>Check-in</small>
+              <h2 th:text="${booking.room.name}">Room Name</h2>
+              <p><i class="fa-solid fa-location-dot"></i> &nbsp;<span th:text="${booking.room.hotel.name}">Hotel</span></p>
+            </div>
+            <div class="confirm-price">
+              <strong th:text="'$' + ${#numbers.formatDecimal(total, 1, 2)}">$0.00</strong>
+              <span>Total Amount Paid</span>
+            </div>
+          </div>
+          <div class="stay-dates">
+            <div>
+              <span>CHECK-IN</span>
               <strong th:text="${booking.checkIn}">Date</strong>
+              <p>After 3:00 PM</p>
             </div>
             <div>
-              <small>Check-out</small>
+              <span>CHECK-OUT</span>
               <strong th:text="${booking.checkOut}">Date</strong>
+              <p>Before 11:00 AM</p>
             </div>
-            <div>
-              <small>Nights</small>
-              <strong th:text="${nights}">0</strong>
-            </div>
+          </div>
+          <div class="amenities">
+            <span><i class="fa-solid fa-user-group"></i> 2 Guests</span>
+            <span><i class="fa-solid fa-bed"></i> 1 King Bed</span>
+            <span><i class="fa-solid fa-wifi"></i> High-speed WiFi</span>
           </div>
         </div>
       </div>

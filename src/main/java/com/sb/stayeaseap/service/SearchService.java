@@ -2,9 +2,11 @@ package com.sb.stayeaseap.service;
 
 import com.sb.stayeaseap.model.Hotel;
 import com.sb.stayeaseap.repository.ReviewRepository;
+import com.sb.stayeaseap.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,20 +18,24 @@ public class SearchService {
 
     private final HotelService hotelService;
     private final ReviewRepository reviewRepository;
+    private final RoomRepository roomRepository;
 
-    public SearchService(HotelService hotelService, ReviewRepository reviewRepository) {
+    public SearchService(HotelService hotelService, ReviewRepository reviewRepository, RoomRepository roomRepository) {
         this.hotelService = hotelService;
         this.reviewRepository = reviewRepository;
+        this.roomRepository = roomRepository;
     }
 
     private static final int PER_PAGE = 4;
 
-    public List<Hotel> search(String keyword, List<Integer> stars, Integer maxPrice, String sort, int page) {
+    public List<Hotel> search(String keyword, List<Integer> stars, Integer maxPrice, String sort, int page,
+                              LocalDate checkIn, LocalDate checkOut) {
         List<Hotel> hotels = hotelService.searchByKeyword(keyword);
         Map<Long, BigDecimal> minPrices = buildMinPrices(hotels);
 
         hotels = filterByStars(hotels, stars);
         hotels = filterByMaxPrice(hotels, minPrices, maxPrice);
+        hotels = filterByDates(hotels, checkIn, checkOut);
         hotels = sortHotels(hotels, minPrices, sort);
 
         int offset = (page - 1) * PER_PAGE;
@@ -38,12 +44,24 @@ public class SearchService {
         return hotels.subList(offset, end);
     }
 
-    public int totalPages(String keyword, List<Integer> stars, Integer maxPrice) {
+    public int totalPages(String keyword, List<Integer> stars, Integer maxPrice, LocalDate checkIn, LocalDate checkOut) {
         List<Hotel> hotels = hotelService.searchByKeyword(keyword);
         Map<Long, BigDecimal> minPrices = buildMinPrices(hotels);
         hotels = filterByStars(hotels, stars);
         hotels = filterByMaxPrice(hotels, minPrices, maxPrice);
+        hotels = filterByDates(hotels, checkIn, checkOut);
         return (int) Math.ceil((double) hotels.size() / PER_PAGE);
+    }
+
+    private List<Hotel> filterByDates(List<Hotel> hotels, LocalDate checkIn, LocalDate checkOut) {
+        if (checkIn == null || checkOut == null) return hotels;
+        List<Hotel> result = new ArrayList<>();
+        for (Hotel h : hotels) {
+            if (roomRepository.existsAvailableRoomForDates(h.getId(), checkIn, checkOut)) {
+                result.add(h);
+            }
+        }
+        return result;
     }
 
     public Map<Long, BigDecimal> buildMinPrices(List<Hotel> hotels) {

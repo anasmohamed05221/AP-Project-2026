@@ -34,7 +34,7 @@ public class AdminController {
         model.addAttribute("userCount", adminService.getUserCount());
         model.addAttribute("hotelCount", adminService.getHotelCount());
         model.addAttribute("bookingCount", adminService.getBookingCount());
-        model.addAttribute("reviewCount", adminService.getReviewCount());
+        model.addAttribute("monthlyRevenue", adminService.getMonthlyRevenue());
         model.addAttribute("recentBookings", adminService.getRecentBookings());
         return "admin/dashboard";
     }

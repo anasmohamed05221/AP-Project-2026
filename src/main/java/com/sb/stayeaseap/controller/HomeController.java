@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +48,11 @@ public class HomeController {
 
         int resolvedMax = maxPrice != null ? maxPrice : 1000;
 
-        List<Hotel> hotels = searchService.search(city, stars, resolvedMax, sort, page);
-        int totalPages     = searchService.totalPages(city, stars, resolvedMax);
+        LocalDate parsedCheckIn  = (checkIn  != null && !checkIn.isEmpty())  ? LocalDate.parse(checkIn)  : null;
+        LocalDate parsedCheckOut = (checkOut != null && !checkOut.isEmpty()) ? LocalDate.parse(checkOut) : null;
+
+        List<Hotel> hotels = searchService.search(city, stars, resolvedMax, sort, page, parsedCheckIn, parsedCheckOut);
+        int totalPages     = searchService.totalPages(city, stars, resolvedMax, parsedCheckIn, parsedCheckOut);
 
         Map<Long, BigDecimal> minPrices    = searchService.buildMinPrices(hotels);
         Map<Long, Double>     avgRatings   = new HashMap<>();

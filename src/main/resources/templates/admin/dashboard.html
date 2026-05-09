@@ -33,7 +33,7 @@
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon green">
+                <div class="stat-icon golden">
                     <i class="fa-solid fa-hotel"></i>
                 </div>
                 <div class="stat-info">
@@ -53,12 +53,12 @@
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon golden">
-                    <i class="fa-solid fa-star"></i>
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-money-bill"></i>
                 </div>
                 <div class="stat-info">
-                    <div class="stat-label">Reviews</div>
-                    <div class="stat-value" th:text="${reviewCount}">0</div>
+                    <div class="stat-label">Month Revenue</div>
+                    <div class="stat-value" th:text="'$' + ${#numbers.formatDecimal(monthlyRevenue, 1, 2)}">$0.00</div>
                 </div>
             </div>
         </div>

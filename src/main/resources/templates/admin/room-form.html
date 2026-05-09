@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StayEase Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title th:text="${room.id != null} ? 'Edit Room - Admin - StayEase' : 'Add Room - Admin - StayEase'">Room Form - StayEase</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/main.css}">
   <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
@@ -15,55 +15,69 @@
   <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
 
   <main class="admin-content">
-    <div class="admin-page-header">
-      <h1 th:text="${room.id != null} ? 'Edit Room' : 'Add Room'">Room Form</h1>
+
+    <div class="page-header">
+      <h1 class="page-title" th:text="${room.id != null} ? 'Edit Room' : 'Add Room'">Add Room</h1>
     </div>
 
-    <div class="admin-form-card">
+    <div class="form-card">
+
+      <p th:if="${error}" th:text="${error}" style="color: var(--danger); margin-bottom: 16px; font-size: 0.875rem;"></p>
+
       <form th:action="${room.id != null} ? @{/admin/rooms/edit/{id}(id=${room.id})} : @{/admin/hotels/{hotelId}/rooms/add(hotelId=${hotel.id})}"
             method="post">
 
         <div class="form-group">
-          <label>Room Name</label>
-          <input type="text" name="name" th:value="${room.name}" placeholder="e.g. Deluxe King Suite">
+          <label class="form-label" for="name">Room Name</label>
+          <input class="form-control" type="text" id="name" name="name"
+                 th:value="${room.name}" placeholder="e.g. Deluxe King Suite" required>
         </div>
 
         <div class="form-group">
-          <label>Type</label>
-          <input type="text" name="type" th:value="${room.type}" placeholder="e.g. Suite, Standard, Deluxe">
+          <label class="form-label" for="type">Type</label>
+          <input class="form-control" type="text" id="type" name="type"
+                 th:value="${room.type}" placeholder="e.g. Suite, Standard, Deluxe">
         </div>
 
         <div class="form-group">
-          <label>Price Per Night ($)</label>
-          <input type="number" name="pricePerNight" th:value="${room.pricePerNight}" step="0.01" min="0">
+          <label class="form-label" for="pricePerNight">Price Per Night ($)</label>
+          <input class="form-control" type="number" id="pricePerNight" name="pricePerNight"
+                 th:value="${room.pricePerNight}" step="0.01" min="0" required>
         </div>
 
         <div class="form-group">
-          <label>Description</label>
-          <textarea name="description" th:text="${room.description}" placeholder="Room description..."></textarea>
+          <label class="form-label" for="description">Description</label>
+          <textarea class="form-control" id="description" name="description"
+                    rows="4" placeholder="Room description..."
+                    th:text="${room.description}"></textarea>
         </div>
 
         <div class="form-group">
-          <label>Image URL</label>
-          <input type="text" name="image" th:value="${room.image}" placeholder="https://...">
+          <label class="form-label" for="image">Image URL</label>
+          <input class="form-control" type="text" id="image" name="image"
+                 th:value="${room.image}" placeholder="https://example.com/room.jpg">
         </div>
 
         <div class="form-group">
-          <label>Available</label>
-          <select name="isAvailable">
-            <option value="true" th:selected="${room.isAvailable == null or room.isAvailable}">Yes</option>
+          <label class="form-label" for="isAvailable">Available</label>
+          <select class="form-control" id="isAvailable" name="isAvailable">
+            <option value="true"  th:selected="${room.isAvailable == null or room.isAvailable}">Yes</option>
             <option value="false" th:selected="${room.isAvailable != null and !room.isAvailable}">No</option>
           </select>
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="btn-primary">Save Room</button>
-          <a th:href="@{/admin/hotels}" class="btn-cancel">Cancel</a>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span th:text="${room.id != null} ? 'Save Changes' : 'Add Room'">Add Room</span>
+          </button>
+          <a th:href="@{/admin/hotels}" class="form-cancel">Cancel</a>
         </div>
+
       </form>
     </div>
-  </main>
 
+  </main>
 </div>
 </body>
 </html>
