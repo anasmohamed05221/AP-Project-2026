@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
@@ -64,7 +64,7 @@
           <div class="hotel-card-body">
             <div class="hotel-stars">
               <span th:each="i : ${#numbers.sequence(1, hotel.stars)}">★</span>
-              <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5)}">☆</span>
+              <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5, 1)}">☆</span>
             </div>
             <h3 th:text="${hotel.name}">Hotel Name</h3>
             <p class="city"><i class="fa-solid fa-location-dot fa-xs"></i> <span th:text="${hotel.city}">City</span></p>

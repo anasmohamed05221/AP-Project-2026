@@ -21,7 +21,7 @@ public class HotelService {
     }
 
     public List<Hotel> getFeaturedHotels() {
-        return hotelRepository.findTop4ByOrderByStarsDesc();
+        return hotelRepository.findFeatured();
     }
 
     public List<Hotel> searchByKeyword(String keyword) {

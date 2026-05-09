@@ -14,5 +14,11 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
            "LOWER(h.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Hotel> searchByKeyword(@Param("keyword") String keyword);
 
-    List<Hotel> findTop4ByOrderByStarsDesc();
+    @Query(value = "SELECT h.* FROM hotels h " +
+                   "LEFT JOIN rooms r ON r.hotel_id = h.id AND r.is_available = true " +
+                   "LEFT JOIN reviews rv ON rv.hotel_id = h.id " +
+                   "GROUP BY h.id " +
+                   "ORDER BY AVG(rv.rating) DESC NULLS LAST, RANDOM() " +
+                   "LIMIT 4", nativeQuery = true)
+    List<Hotel> findFeatured();
 }

@@ -704,7 +704,7 @@ img { display: block; max-width: 100%; }
 .checkbox-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 12px;
   font-size: 14px;
   cursor: pointer;

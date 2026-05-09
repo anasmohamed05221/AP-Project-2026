@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
@@ -91,8 +91,15 @@
                   <p class="result-location"><i class="fa-solid fa-location-dot fa-xs"></i> <span th:text="${hotel.location}">Location</span></p>
                   <div class="hotel-stars" style="font-size:14px;">
                     <span th:each="i : ${#numbers.sequence(1, hotel.stars)}">★</span>
-                    <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5)}">☆</span>
+                    <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5, 1)}">☆</span>
                   </div>
+                  <p class="result-reviews" th:text="${reviewCounts[hotel.id]} + ' reviews'">0 reviews</p>
+                </div>
+                <div th:if="${avgRatings[hotel.id] != null}" class="score-badge">
+                  <span th:text="${#numbers.formatDecimal(avgRatings[hotel.id] * 2, 1, 1)}">0.0</span>
+                  <th:block th:with="score=${avgRatings[hotel.id] * 2}">
+                    <span th:text="${score >= 9.5 ? 'EXCEPTIONAL' : (score >= 9.0 ? 'SUPERB' : (score >= 8.5 ? 'EXCELLENT' : (score >= 8.0 ? 'VERY GOOD' : 'GOOD')))}">GOOD</span>
+                  </th:block>
                 </div>
               </div>
               <p class="result-desc" th:text="${hotel.description}">Description</p>
@@ -100,8 +107,8 @@
                 <div class="result-price">
                   <small>Starting from</small>
                   <strong>
-                    <span th:if="${minPrices[hotel.id] != null}" th:text="'$' + ${#numbers.formatDecimal(minPrices[hotel.id], 1, 0)}">$0</span>
-                    <span th:unless="${minPrices[hotel.id] != null}">N/A</span>
+                    <th:block th:if="${minPrices[hotel.id] != null}" th:text="'$' + ${#numbers.formatDecimal(minPrices[hotel.id], 1, 0)}"></th:block>
+                    <th:block th:unless="${minPrices[hotel.id] != null}">N/A</th:block>
                   </strong>
                   <span>/ night</span>
                 </div>
@@ -112,6 +119,27 @@
         </div>
 
       </div>
+
+      <div th:if="${totalPages > 1}" class="pagination">
+        <th:block th:with="winStart=${T(java.lang.Math).max(1, T(java.lang.Math).min(currentPage - 1, totalPages - 2))},
+                           winEnd=${T(java.lang.Math).min(totalPages, T(java.lang.Math).max(1, T(java.lang.Math).min(currentPage - 1, totalPages - 2)) + 2)}">
+          <a th:if="${currentPage > 1}"
+             th:href="@{/search(city=${city},check_in=${checkIn},check_out=${checkOut},sort=${sort},max_price=${maxPrice},stars=${selectedStars},page=${currentPage - 1})}">&#8249;</a>
+          <span th:unless="${currentPage > 1}" class="pagination-disabled">&#8249;</span>
+
+          <th:block th:each="p : ${#numbers.sequence(winStart, winEnd)}">
+            <span th:if="${p == currentPage}" th:text="${p}"></span>
+            <a th:unless="${p == currentPage}"
+               th:href="@{/search(city=${city},check_in=${checkIn},check_out=${checkOut},sort=${sort},max_price=${maxPrice},stars=${selectedStars},page=${p})}"
+               th:text="${p}"></a>
+          </th:block>
+
+          <a th:if="${currentPage < totalPages}"
+             th:href="@{/search(city=${city},check_in=${checkIn},check_out=${checkOut},sort=${sort},max_price=${maxPrice},stars=${selectedStars},page=${currentPage + 1})}">&#8250;</a>
+          <span th:unless="${currentPage < totalPages}" class="pagination-disabled">&#8250;</span>
+        </th:block>
+      </div>
+
     </div>
   </main>
 

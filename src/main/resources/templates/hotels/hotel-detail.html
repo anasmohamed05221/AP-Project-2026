@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
@@ -19,7 +19,7 @@
         <h2 th:text="${hotel.name}">Hotel Name</h2>
         <p th:text="${hotel.location} + ' • ' + ${averageRating} + '/5 (' + ${reviewCount} + ' Reviews)'">Info</p>
       </div>
-      <a class="soft-btn" th:href="@{/reviews}">View Reviews</a>
+      <a class="soft-btn" th:href="@{/reviews(hotelId=${hotel.id})}">View Reviews</a>
     </section>
 
     <section class="hotel-cover"
@@ -27,7 +27,7 @@
       <div class="cover-text">
         <span>
           <span th:each="i : ${#numbers.sequence(1, hotel.stars)}">★</span>
-          <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5)}">☆</span>
+          <span th:each="i : ${#numbers.sequence(hotel.stars + 1, 5, 1)}">☆</span>
         </span>
         <h2 th:text="${hotel.city}">City</h2>
         <p th:text="${hotel.description}">Description</p>

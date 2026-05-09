@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
@@ -41,7 +41,7 @@
             <h3 th:text="${reviews[0].user.name}">Name</h3>
             <div class="stars">
               <span th:each="i : ${#numbers.sequence(1, reviews[0].rating)}">★</span>
-              <span th:each="i : ${#numbers.sequence(reviews[0].rating + 1, 5)}">☆</span>
+              <span th:each="i : ${#numbers.sequence(reviews[0].rating + 1, 5, 1)}">☆</span>
             </div>
             <p th:text="${reviews[0].comment}">Comment</p>
           </div>
@@ -51,7 +51,7 @@
               <h4 th:text="${review.user.name}">Name</h4>
               <div class="stars">
                 <span th:each="i : ${#numbers.sequence(1, review.rating)}">★</span>
-                <span th:each="i : ${#numbers.sequence(review.rating + 1, 5)}">☆</span>
+                <span th:each="i : ${#numbers.sequence(review.rating + 1, 5, 1)}">☆</span>
               </div>
             </div>
           </div>
