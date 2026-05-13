@@ -26,7 +26,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Booking ID</th>
+                            <th>ID</th>
                             <th>Guest Name</th>
                             <th>Hotel</th>
                             <th>Room</th>
@@ -39,7 +39,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="booking : ${bookings}">
-                            <td th:text="'#' + ${booking.id}">#1</td>
+                            <td th:text="${booking.id}">1</td>
                             <td th:text="${booking.user.name}">Guest Name</td>
                             <td th:text="${booking.room.hotel.name}">Hotel Name</td>
                             <td th:text="${booking.room.name}">Room Name</td>
