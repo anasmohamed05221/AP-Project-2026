@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,8 +27,17 @@ public class HotelController {
     public String hotelDetail(@PathVariable Long id, Model model) {
         Hotel hotel = hotelService.getHotelById(id);
         List<Room> rooms = hotelService.getRoomsByHotel(id);
+
+        List<String> roomTypes = new ArrayList<>();
+        for (Room room : rooms) {
+            if (!roomTypes.contains(room.getType())) {
+                roomTypes.add(room.getType());
+            }
+        }
+
         model.addAttribute("hotel", hotel);
         model.addAttribute("rooms", rooms);
+        model.addAttribute("roomTypes", roomTypes);
         model.addAttribute("averageRating", reviewService.getAvgRating(id));
         model.addAttribute("reviewCount", reviewService.getReviewCount(id));
         return "hotels/hotel-detail";

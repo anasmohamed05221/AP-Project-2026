@@ -41,9 +41,8 @@
       </div>
       <div class="filters">
         <button class="filter active" data-type="all">All Rooms</button>
-        <button class="filter" data-type="Standard">Standard</button>
-        <button class="filter" data-type="Suite">Suite</button>
-        <button class="filter" data-type="Deluxe">Deluxe</button>
+        <button th:each="type : ${roomTypes}" class="filter"
+                th:attr="data-type=${type}" th:text="${type}">Type</button>
       </div>
     </section>
 
